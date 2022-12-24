@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../intellisense.dart';
 import '../code_editor_line/pluto_editor_line.dart';
 import '../code_editor_line/pluto_editor_line_controller.dart';
@@ -37,6 +38,13 @@ class PlutoCodeEditorController extends ValueNotifier {
     for (var controller in controllers) {
       controller.lang = value;
     }
+    notifyListeners();
+  }
+
+  bool _helpMode = false;
+  bool get helpMode => _helpMode;
+  set helpMode(bool value) {
+    _helpMode = value;
     notifyListeners();
   }
 
@@ -112,15 +120,16 @@ class PlutoCodeEditorController extends ValueNotifier {
     List<String> lines = code.split('\n');
     for (int i = 0; i < lines.length; i++) {
       controllers.add(
-        PlutoEditorLineController(text: SPEC_CHAR + lines[i], root: this, lang: lang),
+        PlutoEditorLineController(
+            text: SPEC_CHAR + lines[i], root: this, lang: lang),
       );
     }
     notifyListeners();
   }
 
   PlutoEditorLineController getNewLineController(String text) {
-    PlutoEditorLineController lineController =
-        PlutoEditorLineController(text: SPEC_CHAR + text, root: this, lang: lang);
+    PlutoEditorLineController lineController = PlutoEditorLineController(
+        text: SPEC_CHAR + text, root: this, lang: lang);
     lineController.selection = const TextSelection.collapsed(offset: 1);
     return lineController;
   }

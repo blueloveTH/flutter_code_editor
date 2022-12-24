@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../intellisense.dart';
 import '../code_editor_base/pluto_code_editor.dart';
 import '../code_editor_base/pluto_code_editor_controller.dart';
@@ -30,6 +29,6 @@ class PlutoEditorLineController extends PlutoRichCodeEditingController {
 
   void clickHomeButton() {
     focusNode.requestFocus();
-    selection = TextSelection.collapsed(offset: 1);
+    selection = const TextSelection.collapsed(offset: 1);
   }
 }

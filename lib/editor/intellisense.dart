@@ -6,12 +6,13 @@ import 'editor/syntax/bonicpython.dart';
 final RegExp patternComment = RegExp(r'#[^\n]*');
 final RegExp patternStringSingleQuote = RegExp(r"f?'.*?'");
 final RegExp patternStringDoubleQuote = RegExp(r'f?".*?"');
-final RegExp patternIdentifier =
-    RegExp(r'[\p{Lo}a-zA-Z_][\p{Lo}a-zA-Z0-9_]*', unicode: true);
+const String identifierRaw = r'[\p{Lo}a-zA-Z_][\p{Lo}a-zA-Z0-9_]*';
+final RegExp patternIdentifier = RegExp(identifierRaw, unicode: true);
 
 String patchSrc(String src) {
   var pattern = RegExp(r"^(\s*)▶\s*(.*)$", unicode: true, multiLine: true);
   return src.replaceAllMapped(pattern, (match) {
+    // ignore: prefer_interpolation_to_compose_strings
     return match.group(1)! + "print('${match.group(2)}')";
   });
 }

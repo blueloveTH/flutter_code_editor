@@ -64,7 +64,7 @@ class _PlutoEditorBottomBarState extends State<PlutoEditorBottomBar> {
       alignment: Alignment.bottomCenter,
       child: Container(
         height: 40,
-        color: widget.controller.theme.syntaxTheme['keyword']?.color,
+        color: widget.controller.theme.keyword.color,
         child: ListView.separated(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,

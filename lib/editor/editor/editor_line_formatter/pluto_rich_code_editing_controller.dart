@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../intellisense.dart';
 import '../code_editor_base/pluto_code_editor.dart';
 import '../code_editor_line/pluto_editor_line.dart';
@@ -26,15 +27,10 @@ class PlutoRichCodeEditingController extends TextEditingController {
   @override
   TextSpan buildTextSpan(
       {required BuildContext context, TextStyle? style, bool? withComposing}) {
-    var _textStyle = TextStyle(
-      fontFamily: theme.fontFamily,
-      color: theme.fontColor,
-    );
-
-    if (lang == Lang.markdown) return TextSpan(style: _textStyle, text: text);
-
+    var textStyle = theme.root;
+    if (lang == Lang.markdown) return TextSpan(style: textStyle, text: text);
     return TextSpan(
-      style: _textStyle,
+      style: textStyle,
       children: getHighlightTextSpan(value.text, theme),
     );
   }
@@ -63,7 +59,7 @@ List<InlineSpan> getHighlightTextSpan(String source, EditorTheme theme) {
 
   copy = copy.replaceAllMapped(patternComment, (match) {
     spans.add(IndexedSpan(match.start, match.end,
-        TextSpan(text: match.group(0), style: theme.syntaxTheme['comment'])));
+        TextSpan(text: match.group(0), style: theme.comment)));
     return '\$' * match.group(0)!.length;
   });
 
@@ -71,7 +67,7 @@ List<InlineSpan> getHighlightTextSpan(String source, EditorTheme theme) {
     spans.add(IndexedSpan(
       match.start,
       match.end,
-      TextSpan(text: match.group(0), style: theme.syntaxTheme['string']),
+      TextSpan(text: match.group(0), style: theme.string),
     ));
     return '\$' * match.group(0)!.length;
   });
@@ -80,33 +76,40 @@ List<InlineSpan> getHighlightTextSpan(String source, EditorTheme theme) {
     spans.add(IndexedSpan(
       match.start,
       match.end,
-      TextSpan(text: match.group(0), style: theme.syntaxTheme['string']),
+      TextSpan(text: match.group(0), style: theme.string),
     ));
     return '\$' * match.group(0)!.length;
   });
 
-  copy = copy.replaceAllMapped(RegExp(r'\b(goto|label)\s+\.\w+\b'), (match) {
+  copy = copy.replaceAllMapped(
+      RegExp(r'\b(goto|label)\s+\.' + identifierRaw, unicode: true), (match) {
     spans.add(IndexedSpan(match.start, match.end,
-        TextSpan(text: match.group(0), style: theme.syntaxTheme['link'])));
+        TextSpan(text: match.group(0), style: theme.link)));
     return '\$' * match.group(0)!.length;
   });
 
   copy = copy.replaceAllMapped(RegExp(r'\b(' + keywords.join('|') + r')\b'),
       (match) {
-    spans.add(IndexedSpan(match.start, match.end,
-        TextSpan(text: match.group(0), style: theme.syntaxTheme['keyword'])));
+    spans.add(IndexedSpan(
+        match.start,
+        match.end,
+        TextSpan(
+          text: match.group(0),
+          style: theme.keyword,
+        )));
     return '\$' * match.group(0)!.length;
   });
 
-  copy = copy.replaceAllMapped(RegExp(r'\b\w+\s*(?=\()'), (match) {
+  copy = copy.replaceAllMapped(
+      RegExp(identifierRaw + r'\s*(?=\()', unicode: true), (match) {
     spans.add(IndexedSpan(match.start, match.end,
-        TextSpan(text: match.group(0), style: theme.syntaxTheme['function'])));
+        TextSpan(text: match.group(0), style: theme.function)));
     return '\$' * match.group(0)!.length;
   });
 
   copy = copy.replaceAllMapped(RegExp(r'\b\d+\b'), (match) {
     spans.add(IndexedSpan(match.start, match.end,
-        TextSpan(text: match.group(0), style: theme.syntaxTheme['number'])));
+        TextSpan(text: match.group(0), style: theme.number)));
     return '\$' * match.group(0)!.length;
   });
 
@@ -139,7 +142,7 @@ List<InlineSpan> getHighlightTextSpan(String source, EditorTheme theme) {
       } else if (results[start] == -2) {
         merged.add(TextSpan(
             text: '·' * (i - start),
-            style: TextStyle(color: theme.fontColor.withOpacity(0.6))));
+            style: TextStyle(color: theme.root.color!.withOpacity(0.6))));
       } else {
         merged.add(spans[results[start]].span);
       }

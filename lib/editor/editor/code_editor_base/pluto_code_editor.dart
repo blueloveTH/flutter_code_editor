@@ -36,7 +36,7 @@ class _PlutoCodeEditorState extends State<PlutoCodeEditor> {
     widget.controller.addListener(_listener);
     super.initState();
 
-    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       if (widget.controller.lang != Lang.python) return;
       widget.controller.autocompleteEngine.update(widget.controller.getText());
     });
@@ -76,8 +76,8 @@ class _PlutoCodeEditorState extends State<PlutoCodeEditor> {
                     text: widget.controller.getLineSelectionText()));
                 widget.controller.clearSelection();
               },
-              child: Text("复制")),
-          SizedBox(
+              child: const Text("复制")),
+          const SizedBox(
             width: 4,
           ),
           OutlinedButton(
@@ -86,15 +86,15 @@ class _PlutoCodeEditorState extends State<PlutoCodeEditor> {
                     text: widget.controller.getLineSelectionText()));
                 widget.controller.removeLineSelectionText();
               },
-              child: Text("剪切")),
-          SizedBox(
+              child: const Text("剪切")),
+          const SizedBox(
             width: 4,
           ),
           OutlinedButton(
               onPressed: () {
                 widget.controller.clearSelection();
               },
-              child: Text("取消")),
+              child: const Text("取消")),
         ],
       );
     }
@@ -123,7 +123,6 @@ class _PlutoCodeEditorState extends State<PlutoCodeEditor> {
                 return PlutoEditorLine(
                   controller: widget.controller.controllers[index],
                   index: index,
-                  dividerLineColor: widget.controller.theme.dividerLineColor,
                   lineNumberStyle: widget.controller.theme.lineNumberStyle,
                   onNewline: _getOnNewLine(index),
                 );
@@ -131,7 +130,7 @@ class _PlutoCodeEditorState extends State<PlutoCodeEditor> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         buildBottom(context),

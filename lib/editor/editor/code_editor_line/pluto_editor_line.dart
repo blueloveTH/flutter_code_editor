@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
 import '../../intellisense.dart';
 import '../editor_line_formatter/pluto_editor_formatter.dart';
 import 'pluto_editor_line_controller.dart';
@@ -11,7 +12,6 @@ class PlutoEditorLine extends StatefulWidget {
   final PlutoEditorLineController controller;
   final void Function(dynamic) onNewline;
   final int index;
-  final Color dividerLineColor;
   final TextStyle lineNumberStyle;
 
   const PlutoEditorLine({
@@ -19,7 +19,6 @@ class PlutoEditorLine extends StatefulWidget {
     required this.controller,
     required this.index,
     required this.onNewline,
-    required this.dividerLineColor,
     required this.lineNumberStyle,
   }) : super(key: key);
 
@@ -70,7 +69,7 @@ class _PlutoEditorLineState extends State<PlutoEditorLine> {
       inputFormatters: [_formatter],
       maxLines: null,
       focusNode: focusNode,
-      scrollPhysics: NeverScrollableScrollPhysics(),
+      scrollPhysics: const NeverScrollableScrollPhysics(),
       controller: controller,
       scrollPadding: EdgeInsets.zero,
       enableIMEPersonalizedLearning: false,
@@ -97,7 +96,7 @@ class _PlutoEditorLineState extends State<PlutoEditorLine> {
         Container(
           width: 1,
           height: height - 2,
-          color: widget.dividerLineColor,
+          color: widget.lineNumberStyle.color,
         ),
         GestureDetector(
           onTap: () {

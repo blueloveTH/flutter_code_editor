@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart';
 
 class EditorTheme {
-  late Color backgroundColor;
-  late Color fontColor;
-  late Color dividerLineColor;
-  final String fontFamily = 'SourceCodePro';
-  late Map<String, TextStyle> syntaxTheme;
-  late TextStyle lineNumberStyle;
-
   static final EditorTheme _instance = EditorTheme._();
   static EditorTheme get instance => _instance;
 
-  EditorTheme._() {
-    syntaxTheme = const {
-      'root': TextStyle(
-          color: Color(0xffcccccc), backgroundColor: Color(0xff1e1e1e)),
-      'comment': TextStyle(color: Color(0xff6a9955)),
-      'keyword': TextStyle(color: Color(0xFFC586C0)),
-      'function': TextStyle(color: Color(0xffdcdcaa)),
-      'number': TextStyle(color: Color(0xffb5cea8)),
-      'name': TextStyle(color: Color(0xffe06c75)),
-      'string': TextStyle(color: Color(0xffce9178)),
-      'link': TextStyle(color: Color.fromARGB(255, 222, 222, 0)),
-      'symbol': TextStyle(color: Color(0xff858585), fontSize: 12),
-      //'symbol_highlight': TextStyle(color: Color(0xFFC6C6C6)),
-    };
-    dividerLineColor = syntaxTheme['symbol']!.color!;
-    backgroundColor = syntaxTheme['root']!.backgroundColor!;
-    fontColor = syntaxTheme['root']!.color!;
-    lineNumberStyle = syntaxTheme['symbol']!;
-  }
+  final Color backgroundColor = const Color(0xff1e1e1e);
+  TextStyle get lineNumberStyle => symbol;
+
+  TextStyle root = const TextStyle(color: Color(0xffcccccc), fontFamily: 'SourceCodePro');
+  TextStyle comment = const TextStyle(color: Color(0xff6a9955));
+  TextStyle keyword = const TextStyle(color: Color(0xFFC586C0));
+  TextStyle function = const TextStyle(color: Color(0xffdcdcaa));
+  TextStyle number = const TextStyle(color: Color(0xffb5cea8));
+  TextStyle name = const TextStyle(color: Color(0xffe06c75));
+  TextStyle string = const TextStyle(color: Color(0xffce9178));
+  TextStyle link = const TextStyle(color: Color.fromARGB(255, 222, 222, 0));
+  TextStyle symbol = const TextStyle(color: Color(0xff858585), fontSize: 12);
+
+  EditorTheme._();
 }
